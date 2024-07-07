@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'
+         https://www.desmos.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:;"> -->
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+    <style>
+        #calculator {
+            width: 100%;
+            height: 700px;
+        }
+        .controls {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Output</span>
+                    <input id="input-out" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+                <button id="btn-write" class="btn btn-primary" type="submit">Write</button>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Input</span>
+                    <input id="input-in" type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+                <button id="btn-read" class="btn btn-primary" type="submit">Read</button>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="container">
+        <div class="controls">
+            <label><input type="radio" id="radio" name="function" value="graph1" checked> Descartes - féle levél </label>
+            <label><input type="radio" id="radio" name="function" value="graph2"> Dioklész-féle cisszoid </label>
+            <label><input type="radio" id="radio" name="function" value="tan"> tan(x) </label>
+            <label>
+                <input type="text" name="unique" id="unique" placeholder="saját polinom megadása">
+            </label>
+        </div>
+        <div id="calculator"></div>
+    </div>
+
+
+
+
+
+    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../dist/renderer.js"></script>
+</body>
+
+</html>
