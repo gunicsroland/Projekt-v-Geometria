@@ -12,29 +12,27 @@ interface NumberWrapper {
     value: number;
 }
 
-function SzamE(char: string) {
-    const charCode = char.charCodeAt(0);
-    console.log("SzamE: " + char + ' ' + (charCode >= 48 && charCode <= 57))
-    return charCode >= 48 && charCode <= 57;
+function IsDigit(char: string) {
+    return char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57;
 }
 
-function SzamKeres(graph: string, i: NumberWrapper, num: StringWrapper) {
-    while (!SzamE(graph.charAt(i.value))) {
+function ExtractNumber(graph: string, i: NumberWrapper) {
+    let num: string = "";
+
+    while (!IsDigit(graph.charAt(i.value))) {
         ++i.value;
     }
 
-    while (i.value < graph.length) {
-        if (SzamE(graph.charAt(i.value))) {
-            num.value = num.value + graph.at(i.value);
-            ++i.value;
-        } else {
-            return i;
-        }
+    while (i.value < graph.length && IsDigit(graph.charAt(i.value))) {
+        num = num += graph.at(i.value);
+        ++i.value;
     }
-    return i;
+    return Number(num);
 }
 
-function TupleMeghataroz(graph: string, i: NumberWrapper) {
+
+
+function TupleDefine(graph: string, i: NumberWrapper) {
     /*számhármasokat létrehozni
                 1 megkeresünk egy számot
                     Ha legelől vagyunk akkor egyből megvan, ha nincs ott szám, akkor 1
@@ -49,42 +47,56 @@ function TupleMeghataroz(graph: string, i: NumberWrapper) {
                 */
 
     let nums: [number, number, number] = [1, 0, 0];
-
-    while (graph.at(i.value) !== '+' || graph.at(i.value) !== '-') {
-        //1. lépés -> i.indexen mi van?
-        if (SzamE(graph.charAt(i.value))) {
-            let num: StringWrapper = { value: '' };
-            i = SzamKeres(graph, i, num);
-            nums[0] = Number(num.value);
-        }
-        //keresünk x-et vagy y-t ha nincs akkor maradhat 0 a nums - ban
-        if (graph.at(i.value) === 'x') {
-            //megnézni, hogy van-e utána kitevő
-            if (graph.at(i.value + 1) === '^') {
-                let num: StringWrapper = { value: '' };
-                i = SzamKeres(graph, i, num);
-                nums[1] = Number(num.value);
-            }
-            //különben 1
-            else {
-                nums[1] = 1;
-            }
-        }
-        if (graph.at(i.value) === 'y') {
-            //megnézni, hogy van-e utána kitevő
-            if (graph.at(i.value + 1) === '^') {
-                let num: StringWrapper = { value: '' };
-                i = SzamKeres(graph, i, num);
-                nums[2] = Number(num);
-            }
-            //különben 1
-            else {
-                nums[2] = 1;
-            }
-        }
+    let neg: boolean;
+    neg = false;
+    //Az együtthatő negálásához
+    if(graph.at(i.value) == '-'){
+        neg = true;
+    }
+    //Előjel átugrás
+    if(graph.at(i.value) === '+' || graph.at(i.value) === '-'){
         ++i.value;
     }
 
+    //1. lépés -> i.indexen mi van?
+    if (IsDigit(graph.charAt(i.value))) {
+        nums[0] = ExtractNumber(graph, i);
+    }
+    //Ha negatív előjel volt akkor negáljuk
+    if(neg) nums[0] *= -1;
+
+    //keresünk x-et vagy y-t ha nincs akkor maradhat 0 a nums - ban
+    if (graph.at(i.value) === 'x') {
+        //megnézni, hogy van-e utána kitevő
+        if (graph.at(i.value + 1) === '^') {
+
+            //elmentjök az indexet későbbi használatra
+            let tmp: number = i.value+1;
+            nums[1] = ExtractNumber(graph, i);
+            //ha a hatványjel után negatív van, akkor negálunk
+            if(graph.at(tmp+1) == '-') nums[1] *= -1;
+        }
+        //különben 1
+        else {
+            nums[1] = 1;
+            ++i.value;
+        }
+    }
+    if (graph.at(i.value) === 'y') {
+        //megnézni, hogy van-e utána kitevő
+        if (graph.at(i.value + 1) === '^') {
+            //hasonlóan az x esetén
+            let tmp: number = i.value+1;
+            nums[2] = ExtractNumber(graph, i);
+            if(graph.at(tmp+1) == '-') nums[2] *= -1;
+        }
+        //különben 1
+        else {
+            nums[2] = 1;
+            ++i.value;
+        }
+    }
+    console.log(nums);
     return nums;
 }
 
@@ -106,8 +118,9 @@ window.addEventListener('load', () => {
 
             //3x^2y + 2xy^2 + 4x + 5y + 6
             let graph = elements.text.value;
-            let coefficient_num = 1; //mindig egyel több mint + vagy -
-            for (let i = 0; i < graph.length; i++) {
+            let coefficient_num = 1;
+            //a 2. karakter az vagy szám lesz vagy ^ ( mindig az első tagon belül leszünk)
+            for (let i = 1; i < graph.length; i++) {
                 if (graph.at(i) === '+') {
                     ++coefficient_num;
                 }
@@ -122,19 +135,24 @@ window.addEventListener('load', () => {
             let coefficients: [number, number, number][] = new Array(coefficient_num);
             console.clear();
             let j = 0;
-            let i: NumberWrapper = {value : 0};
+            let i: NumberWrapper = { value: 0 };
             for (i.value = 0; i.value < graph.length; ++i.value) {
-                if (i.value == 0) {
-                    coefficients[0] = TupleMeghataroz(graph, i)
+                if (i.value === 0 && graph.at(0) != '-') {
+                    coefficients[0] = TupleDefine(graph, i);
                     ++j;
                 }
-
-                if (graph.at(i.value) === '+' && graph.at(i.value) === '-') {
-                    coefficients[j] = TupleMeghataroz(graph, i)
+                else if (graph.at(0) == '-') {
+                    coefficients[0] = TupleDefine(graph, i);
                     ++j;
+                }
+                else if (i.value < graph.length && (graph.at(i.value) === '+' || graph.at(i.value) === '-')) {
+                    coefficients[j] = TupleDefine(graph, i);
+                    ++j;
+                }
+                else{
+                    ++i.value;
                 }
             }
-            console.log("A számok " + coefficients)
 
         }
     })
