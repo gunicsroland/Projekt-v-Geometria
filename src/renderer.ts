@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
             //coefficient egy tömb amiben tuple-ek vannak az együttható és a változó kitevőjét tartalmazza
             // tuple [ együttható, x kitevő, y kitevő]
             let coefficients = CoeffDefine(graph, coefficient_num);
-            coefficients = HomogeneousCoord(coefficients);
+            coefficients = HomogeneousCoord(coefficients.concat());
 
 
             let coefficientsDerX = PartialDerivate(coefficients, 1);
@@ -39,17 +39,19 @@ window.addEventListener('load', () => {
             calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
             calculator.setExpression({ id: 'a', latex: 'a=1' });
             calculator.setExpression({ id: 'b', latex: 'b=1' });
-            
+
             let polarGraph: string = "a*(";
-            for(let term of coefficientsDerX){
+            for (let term of coefficientsDerX) {
                 polarGraph += `${term[0] <= 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
             }
             polarGraph += ")+b*(";
 
             calculator.setExpression({ id: 'cnote', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
-            calculator.setExpression({ id: 'polarCurve', latex: 
-                '',
-                color: '#388c46' })
+            calculator.setExpression({
+                id: 'polarCurve', latex:
+                    '',
+                color: '#388c46'
+            })
         }
     })
 

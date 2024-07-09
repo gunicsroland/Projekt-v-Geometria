@@ -1,4 +1,4 @@
- function IsDigit(char: string) {
+function IsDigit(char: string) {
     return char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57;
 }
 
@@ -6,7 +6,7 @@ interface NumberWrapper {
     value: number;
 }
 
- function ExtractNumber(graph: string, i: NumberWrapper) {
+function ExtractNumber(graph: string, i: NumberWrapper) {
     let num: string = "";
 
     while (!IsDigit(graph.charAt(i.value))) {
@@ -21,7 +21,7 @@ interface NumberWrapper {
 }
 
 
- function CoeffNum(graph: string) {
+function CoeffNum(graph: string) {
     let coefficient_num = 1;
     //a 2. karakter az vagy szám lesz vagy ^ ( mindig az első tagon belül leszünk)
     for (let i = 1; i < graph.length; i++) {
@@ -34,15 +34,15 @@ interface NumberWrapper {
         }
     }
 
+    console.log("Az együtthatók száma: " + coefficient_num);
     return coefficient_num;
 }
 
- function CoeffDefine(graph: string, coefficient_num: number) {
+function CoeffDefine(graph: string, coefficient_num: number) {
     let coefficients: [number, number, number, number, number, number, number][] = new Array(coefficient_num);
-    console.clear();
     let j = 0;
     let i: NumberWrapper = { value: 0 };
-    for (i.value = 0; i.value < graph.length; ++i.value) {
+    while(i.value < graph.length) {
         if (i.value === 0 && graph.at(0) != '-') {
             coefficients[0] = TupleDefine(graph, i);
             ++j;
@@ -63,26 +63,33 @@ interface NumberWrapper {
     return coefficients;
 }
 
- function HomogeneousCoord(coefficients: [number, number, number, number, number, number, number][]){;
+function HomogeneousCoord(coefficients: [number, number, number, number, number, number, number][]) {
     let maxPow: number = 0;
     let sumPow: number;
 
-    for(let tuple of coefficients){
+    for (let tuple of coefficients) {
+        console.log(tuple);
         sumPow = 0;
-        for(let i = 1; i < 3; ++i) sumPow += tuple[i];
-        if(sumPow > maxPow) maxPow = sumPow;
+        for (let i = 1; i < 3; ++i) {
+            sumPow += tuple[i];
+        }
+        if (sumPow > maxPow) {
+            maxPow = sumPow;
+        }
     }
 
-    for (let tuple of coefficients){
+    for (let tuple of coefficients) {
         sumPow = 0;
-        for(let i = 1; i < 3; ++i) sumPow += tuple[i];
+        for (let i = 1; i < 3; ++i) {
+            sumPow += tuple[i];
+        }
         tuple[3] = maxPow - sumPow;
     }
 
     return coefficients;
 }
 
- function TupleDefine(graph: string, i: NumberWrapper) {
+function TupleDefine(graph: string, i: NumberWrapper) {
     /*számhármasokat létrehozni
                 1 megkeresünk egy számot
                     Ha legelől vagyunk akkor egyből megvan, ha nincs ott szám, akkor 1
@@ -118,7 +125,7 @@ interface NumberWrapper {
     //keresünk x-et vagy y-t ha nincs akkor maradhat 0 a nums - ban
     if (graph.at(i.value) === 'x') {
         //megnézni, hogy van-e utána kitevő
-        if (graph.at(i.value + 1) === '^') {
+        if (i.value <graph.length-1 && graph.at(i.value + 1) === '^') {
 
             //elmentjök az indexet későbbi használatra
             let tmp: number = i.value + 1;
@@ -134,7 +141,7 @@ interface NumberWrapper {
     }
     if (graph.at(i.value) === 'y') {
         //megnézni, hogy van-e utána kitevő
-        if (graph.at(i.value + 1) === '^') {
+        if (i.value <graph.length-1 && graph.at(i.value + 1) === '^') {
             //hasonlóan az x esetén
             let tmp: number = i.value + 1;
             nums[2] = ExtractNumber(graph, i);
@@ -150,23 +157,23 @@ interface NumberWrapper {
     return nums;
 }
 
- function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number){
+function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number) {
 
     let DerivedCoeffs = coefficients.concat();
 
-    for(let i = 0; i < coefficients.length; ++i){
-        if(coefficients[i][index] !== 0){
+    for (let i = 0; i < coefficients.length; ++i) {
+        if (coefficients[i][index] !== 0) {
             DerivedCoeffs[i] = DerivePowFunc(DerivedCoeffs[i], index);
         }
-        else{
-            DerivedCoeffs[i] = [0,0,0,0,0,0,0];
+        else {
+            DerivedCoeffs[i] = [0, 0, 0, 0, 0, 0, 0];
         }
     }
 
     return DerivedCoeffs;
 }
 
- function DerivePowFunc(func: [number, number, number, number, number, number, number], index: number){
+function DerivePowFunc(func: [number, number, number, number, number, number, number], index: number) {
     func[0] *= func[index];
     func[index] -= 1;
 
