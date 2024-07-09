@@ -34,7 +34,7 @@ function CoeffNum(graph: string) {
         }
     }
 
-    console.log("Az együtthatók száma: " + coefficient_num);
+    console.log("Az együtthatók száma: " + coefficient_num + "\n");
     return coefficient_num;
 }
 
@@ -64,11 +64,11 @@ function CoeffDefine(graph: string, coefficient_num: number) {
 }
 
 function HomogeneousCoord(coefficients: [number, number, number, number, number, number, number][]) {
+    console.log("\nA homogén koordináták kezdete")
     let maxPow: number = 0;
     let sumPow: number;
 
     for (let tuple of coefficients) {
-        console.log(tuple);
         sumPow = 0;
         for (let i = 1; i < 3; ++i) {
             sumPow += tuple[i];
@@ -79,17 +79,21 @@ function HomogeneousCoord(coefficients: [number, number, number, number, number,
     }
 
     for (let tuple of coefficients) {
+        console.log("A kapott tuple: " + tuple);
         sumPow = 0;
         for (let i = 1; i < 3; ++i) {
             sumPow += tuple[i];
         }
         tuple[3] = maxPow - sumPow;
+        console.log("A homogén-koordináták tuple: " + tuple);
     }
 
+    console.log("A homogén-kkordináták vége"+ "\n");
     return coefficients;
 }
 
 function TupleDefine(graph: string, i: NumberWrapper) {
+    console.log("\nTuple meghatározás");
     /*számhármasokat létrehozni
                 1 megkeresünk egy számot
                     Ha legelől vagyunk akkor egyből megvan, ha nincs ott szám, akkor 1
@@ -153,23 +157,25 @@ function TupleDefine(graph: string, i: NumberWrapper) {
             ++i.value;
         }
     }
-    console.log(nums);
+    console.log("A meghatározott tuple: " + nums + "\n");
     return nums;
 }
 
 function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number) {
-
-    let DerivedCoeffs = coefficients.concat();
+    console.log("\nParciális deriválás: " + index + ". indexű változó szerint");
+    let DerivedCoeffs = [...coefficients];
 
     for (let i = 0; i < coefficients.length; ++i) {
+        console.log("A kapott tuple: " + coefficients[i]);
         if (coefficients[i][index] !== 0) {
             DerivedCoeffs[i] = DerivePowFunc(DerivedCoeffs[i], index);
         }
         else {
             DerivedCoeffs[i] = [0, 0, 0, 0, 0, 0, 0];
         }
+        console.log("A derivált tuple: " + DerivedCoeffs[i]);
     }
-
+    console.log("A Parciális deriválás vége \n");
     return DerivedCoeffs;
 }
 

@@ -25,14 +25,15 @@ window.addEventListener('load', () => {
             //coefficient egy tömb amiben tuple-ek vannak az együttható és a változó kitevőjét tartalmazza
             // tuple [ együttható, x kitevő, y kitevő]
             let coefficients = CoeffDefine(graph, coefficient_num);
-            coefficients = HomogeneousCoord(coefficients.concat());
+            let HomogenCoefficients = HomogeneousCoord(coefficients.concat());
 
 
-            let coefficientsDerX = PartialDerivate(coefficients, 1);
+
+            let coefficientsDerX = PartialDerivate([...HomogenCoefficients], 1);
+            let coefficientsDerY = PartialDerivate([...HomogenCoefficients], 2);
+            let coefficientsDerZ = PartialDerivate([...HomogenCoefficients], 3);
             coefficientsDerX[0][4] = 1;
-            let coefficientsDerY = PartialDerivate(coefficients, 2);
             coefficientsDerY[0][5] = 1;
-            let coefficientsDerZ = PartialDerivate(coefficients, 3);
             coefficientsDerZ[0][6] = 1;
 
             calculator.setExpression({ id: 'Folderpole', type: 'folder', text: 'A pólus' });
@@ -45,11 +46,19 @@ window.addEventListener('load', () => {
                 polarGraph += `${term[0] <= 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
             }
             polarGraph += ")+b*(";
+            for (let term of coefficientsDerY) {
+                polarGraph += `${term[0] <= 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+            }
+            polarGraph += ")"
+            for (let term of coefficientsDerZ) {
+                polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+            }
+
 
             calculator.setExpression({ id: 'cnote', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
             calculator.setExpression({
                 id: 'polarCurve', latex:
-                    '',
+                    `${polarGraph}=0`,
                 color: '#388c46'
             })
         }
