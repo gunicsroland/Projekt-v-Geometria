@@ -1,8 +1,12 @@
-function IsDigit(char: string) {
+ function IsDigit(char: string) {
     return char.charCodeAt(0) >= 48 && char.charCodeAt(0) <= 57;
 }
 
-function ExtractNumber(graph: string, i: NumberWrapper) {
+interface NumberWrapper {
+    value: number;
+}
+
+ function ExtractNumber(graph: string, i: NumberWrapper) {
     let num: string = "";
 
     while (!IsDigit(graph.charAt(i.value))) {
@@ -17,7 +21,7 @@ function ExtractNumber(graph: string, i: NumberWrapper) {
 }
 
 
-function CoeffNum(graph: string) {
+ function CoeffNum(graph: string) {
     let coefficient_num = 1;
     //a 2. karakter az vagy szám lesz vagy ^ ( mindig az első tagon belül leszünk)
     for (let i = 1; i < graph.length; i++) {
@@ -33,7 +37,7 @@ function CoeffNum(graph: string) {
     return coefficient_num;
 }
 
-function CoeffDefine(graph: string, coefficient_num: number) {
+ function CoeffDefine(graph: string, coefficient_num: number) {
     let coefficients: [number, number, number, number, number, number, number][] = new Array(coefficient_num);
     console.clear();
     let j = 0;
@@ -59,7 +63,7 @@ function CoeffDefine(graph: string, coefficient_num: number) {
     return coefficients;
 }
 
-function HomogeneousCord(coefficients: [number, number, number, number, number, number, number][]){;
+ function HomogeneousCoord(coefficients: [number, number, number, number, number, number, number][]){;
     let maxPow: number = 0;
     let sumPow: number;
 
@@ -78,7 +82,7 @@ function HomogeneousCord(coefficients: [number, number, number, number, number, 
     return coefficients;
 }
 
-function TupleDefine(graph: string, i: NumberWrapper) {
+ function TupleDefine(graph: string, i: NumberWrapper) {
     /*számhármasokat létrehozni
                 1 megkeresünk egy számot
                     Ha legelől vagyunk akkor egyből megvan, ha nincs ott szám, akkor 1
@@ -146,20 +150,25 @@ function TupleDefine(graph: string, i: NumberWrapper) {
     return nums;
 }
 
-function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number){
+ function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number){
 
     let DerivedCoeffs = coefficients.concat();
 
     for(let i = 0; i < coefficients.length; ++i){
         if(coefficients[i][index] !== 0){
-            DerivedCoeffs[i] = DerivePowFunc(DerivedCoeffs[i]);
+            DerivedCoeffs[i] = DerivePowFunc(DerivedCoeffs[i], index);
         }
         else{
             DerivedCoeffs[i] = [0,0,0,0,0,0,0];
         }
     }
+
+    return DerivedCoeffs;
 }
 
-function DerivePowFunc(func: [number, number, number, number, number, number, number]){
+ function DerivePowFunc(func: [number, number, number, number, number, number, number], index: number){
+    func[0] *= func[index];
+    func[index] -= 1;
+
     return func;
 }
