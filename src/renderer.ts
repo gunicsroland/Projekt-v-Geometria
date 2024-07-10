@@ -36,24 +36,29 @@ window.addEventListener('load', () => {
             coefficientsDerY[0][5] = 1;
             coefficientsDerZ[0][6] = 1;
 
-            calculator.setExpression({ id: 'Folderpole', type: 'folder', text: 'A pólus' });
-            calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
-            calculator.setExpression({ id: 'a', latex: 'a=1' });
-            calculator.setExpression({ id: 'b', latex: 'b=1' });
-
-            let polarGraph: string = "a*(";
+            console.log("A poláris görbe összerakása: ");
+            let polarGraph: string = "a(";
+            console.log(polarGraph);
             for (let term of coefficientsDerX) {
-                polarGraph += `${term[0] <= 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                console.log(polarGraph);
+                term[4] = 1;
             }
-            polarGraph += ")+b*(";
+            polarGraph += ")+b(";
+            console.log(polarGraph);
+
             for (let term of coefficientsDerY) {
-                polarGraph += `${term[0] <= 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                console.log(polarGraph);
+                term[5] = 1;
             }
             polarGraph += ")"
+            console.log(polarGraph);
             for (let term of coefficientsDerZ) {
-                polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "*x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+                console.log(polarGraph);
+                term[6] = 1;
             }
-
 
             calculator.setExpression({ id: 'cnote', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
             calculator.setExpression({
@@ -61,6 +66,14 @@ window.addEventListener('load', () => {
                     `${polarGraph}=0`,
                 color: '#388c46'
             })
+
+            calculator.setExpression({ id: 'Folderpole', type: 'folder', text: 'A pólus' });
+            calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
+            calculator.setExpression({ id: 'a', latex: 'a=1' });
+            calculator.setExpression({ id: 'b', latex: 'b=1' });
+
+            let b: string = "";
+            b = DefineParabola(polarGraph);
         }
     })
 

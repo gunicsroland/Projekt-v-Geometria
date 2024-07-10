@@ -163,7 +163,10 @@ function TupleDefine(graph: string, i: NumberWrapper) {
 
 function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number) {
     console.log("\nParciális deriválás: " + index + ". indexű változó szerint");
-    let DerivedCoeffs = [...coefficients];
+    let DerivedCoeffs: [number, number, number, number, number, number, number][] = new Array(coefficients.length);
+    for(let i = 0; i < DerivedCoeffs.length; ++i){
+        DerivedCoeffs[i] = [...coefficients[i]];
+    }
 
     for (let i = 0; i < coefficients.length; ++i) {
         console.log("A kapott tuple: " + coefficients[i]);
@@ -180,8 +183,14 @@ function PartialDerivate(coefficients: [number, number, number, number, number, 
 }
 
 function DerivePowFunc(func: [number, number, number, number, number, number, number], index: number) {
+    console.log("deriválás előtt kapott: " + func);
     func[0] *= func[index];
     func[index] -= 1;
+    console.log("deriválás után: " + func);
 
     return func;
+}
+
+function DefineParabola(graph: string){
+    let A 
 }
