@@ -16,8 +16,10 @@ window.addEventListener('load', () => {
     elements.text.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             calculator.setBlank();
+            console.clear();
+            console.log(elements.text.value)
             calculator.setExpression({ id: 'mappa', type: 'folder', text: 'Saját' });
-            calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440' })
+            calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440' });
 
             let graph = elements.text.value;
             let coefficient_num = CoeffNum(graph);
@@ -72,8 +74,12 @@ window.addEventListener('load', () => {
             calculator.setExpression({ id: 'a', latex: 'a=1' });
             calculator.setExpression({ id: 'b', latex: 'b=1' });
 
-            let b: string = "";
-            b = DefineParabola(polarGraph);
+            let parabolaGraph: string = "";
+            parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
+            console.log(parabolaGraph);
+
+            calculator.setExpression({id: 'note', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: '});
+            calculator.setExpression({id: 'functionf', latex: `${parabolaGraph}`, color: "#2d70b3"});
         }
     })
 
