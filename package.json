@@ -2,21 +2,36 @@
   "name": "polinom_viewer",
   "version": "1.0.0",
   "main": "dist/main.js",
-  "scripts":{
-  "build:ts": "tsc",
-	"build:css": "sass bootstrap.scss node_modules/bootstrap/dist/css/bootstrap.min.css",
-	"start": "electron ."
+  "scripts": {
+    "build:ts": "tsc",
+    "build:css": "sass bootstrap.scss node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "start": "electron-forge start",
+    "dist": "electron-builder",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "build": {
+    "appId": "com.polargraphs.myapp"
   },
   "keywords": [],
-  "author": "",
+  "author": "RolandGunics",
   "license": "ISC",
-  "description": "",
+  "description": "ElectronApp",
   "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
     "electron": "^31.1.0",
     "sass": "^1.77.6",
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "electron-squirrel-startup": "^1.0.1"
   }
 }
