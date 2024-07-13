@@ -23,11 +23,11 @@
 <body>
     <div class="container">
         <div class="controls">
-            <label><input type="radio" id="radio" name="function" value="graph1" checked> Descartes - féle levél </label>
-            <label><input type="radio" id="radio" name="function" value="graph2"> Dioklész-féle cisszoid </label>
-            <label><input type="radio" id="radio" name="function" value="tan"> tan(x) </label>
+            <label><input type="radio" id="radio" name="function" value="FoliumDescartes"> Descartes - féle levél </label>
+            <label><input type="radio" id="radio" name="function" value="CissoidDiocles"> Dioklész-féle cisszoid </label>
+            <label><input type="radio" id="uniqueRadio" name="function" value="unique"> Egyedi megadása </label>
             <label>
-                <input type="text" name="unique" id="unique" placeholder="saját polinom megadása">
+                <input type="text" name="unique" id="unique" placeholder="saját polinom megadása" disabled="true">
             </label>
         </div>
         <div id="calculator"></div>
@@ -41,6 +41,7 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../dist/renderer.js"></script>
     <script src="../dist/algorithm.js"></script>
+    <script src="../dist/graphs.js"></script>
 </body>
 
 </html>
