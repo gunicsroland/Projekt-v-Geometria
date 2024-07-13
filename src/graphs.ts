@@ -3,7 +3,7 @@ function FoliumDescartes(calculator: Desmos.Calculator) : void{
     calculator.setExpression({ id: 'name', type: 'text', text: 'A Descartes-féle levél' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^3+y^3-3Cxy=0', color: '#c74440' });
-    calculator.setExpression({ id: 'Cnote', type: 'note', text: 'A C egy konstans' });
+    calculator.setExpression({ id: 'Cnote', type: 'text', text: 'A C egy konstans' });
     calculator.setExpression({ id: 'const', latex: 'C=1' });
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A Pólus' });
