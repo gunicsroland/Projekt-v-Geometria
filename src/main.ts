@@ -8,11 +8,13 @@ app.on('ready', () => {
     window = new BrowserWindow({
         webPreferences: {
             preload: path.join(app.getAppPath(), 'dist/preload.js')
-        }
+        },
+        autoHideMenuBar: true,
     });
 
     window.loadFile(path.join(app.getAppPath(), 'src/index.html'));
-    window.webContents.openDevTools();
+    window.maximize();
+    //window.webContents.openDevTools();
 });
 
 app.on('window-all-closed', () => {
