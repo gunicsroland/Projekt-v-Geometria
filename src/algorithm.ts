@@ -20,6 +20,23 @@ function ExtractNumber(graph: string, i: NumberWrapper) {
     return Number(num);
 }
 
+function PowFind(graph: string, nums: [number, number, number, number, number, number, number], varIndex: number, i: NumberWrapper) {
+    //megnézni, hogy van-e utána kitevő
+    if (i.value < graph.length - 1 && graph.at(i.value + 1) === '^') {
+
+        //elmentjök az indexet későbbi használatra
+        let tmp: number = i.value + 1;
+        nums[varIndex] = ExtractNumber(graph, i);
+        //ha a hatványjel után negatív van, akkor negálunk
+        if (graph.at(tmp + 1) == '-') nums[varIndex] *= -1;
+    }
+    //különben 1
+    else {
+        nums[varIndex] = 1;
+        ++i.value;
+    }
+}
+
 
 function CoeffNum(graph: string) {
     let coefficient_num = 1;
@@ -42,7 +59,7 @@ function CoeffDefine(graph: string, coefficient_num: number) {
     let coefficients: [number, number, number, number, number, number, number][] = new Array(coefficient_num);
     let j = 0;
     let i: NumberWrapper = { value: 0 };
-    while(i.value < graph.length) {
+    while (i.value < graph.length) {
         if (i.value === 0 && graph.at(0) != '-') {
             coefficients[0] = TupleDefine(graph, i);
             ++j;
@@ -88,7 +105,7 @@ function HomogeneousCoord(coefficients: [number, number, number, number, number,
         console.log("A homogén-koordináták tuple: " + tuple);
     }
 
-    console.log("A homogén-kkordináták vége"+ "\n");
+    console.log("A homogén-kkordináták vége" + "\n");
     return coefficients;
 }
 
@@ -128,38 +145,20 @@ function TupleDefine(graph: string, i: NumberWrapper) {
 
     //keresünk x-et vagy y-t ha nincs akkor maradhat 0 a nums - ban
     if (graph.at(i.value) === 'x') {
-        //megnézni, hogy van-e utána kitevő
-        if (i.value <graph.length-1 && graph.at(i.value + 1) === '^') {
-
-            //elmentjök az indexet későbbi használatra
-            let tmp: number = i.value + 1;
-            nums[1] = ExtractNumber(graph, i);
-            //ha a hatványjel után negatív van, akkor negálunk
-            if (graph.at(tmp + 1) == '-') nums[1] *= -1;
-        }
-        //különben 1
-        else {
-            nums[1] = 1;
-            ++i.value;
-        }
+        PowFind(graph, nums, 1, i);
     }
-    if(graph.at(i.value) == '*'){
+    else if(graph.at(i.value) === 'y'){
+        PowFind(graph, nums, 2, i);
+    }
+    if (graph.at(i.value) == '*') {
         ++i.value;
     }
-    while(graph.at(i.value) != '+' && graph.at(i.value) == '-' && graph.at(i.value) && 'y'){++i.value};
+
     if (graph.at(i.value) === 'y') {
-        //megnézni, hogy van-e utána kitevő
-        if (i.value <graph.length-1 && graph.at(i.value + 1) === '^') {
-            //hasonlóan az x esetén
-            let tmp: number = i.value + 1;
-            nums[2] = ExtractNumber(graph, i);
-            if (graph.at(tmp + 1) == '-') nums[2] *= -1;
-        }
-        //különben 1
-        else {
-            nums[2] = 1;
-            ++i.value;
-        }
+        PowFind(graph, nums, 2, i);
+    }
+    else if(graph.at(i.value) === 'x'){
+        PowFind(graph, nums, 1, i);
     }
 
     console.log("A meghatározott tuple: " + nums + "\n");
@@ -169,7 +168,7 @@ function TupleDefine(graph: string, i: NumberWrapper) {
 function PartialDerivate(coefficients: [number, number, number, number, number, number, number][], index: number) {
     console.log("\nParciális deriválás: " + index + ". indexű változó szerint");
     let DerivedCoeffs: [number, number, number, number, number, number, number][] = new Array(coefficients.length);
-    for(let i = 0; i < DerivedCoeffs.length; ++i){
+    for (let i = 0; i < DerivedCoeffs.length; ++i) {
         DerivedCoeffs[i] = [...coefficients[i]];
     }
 
@@ -197,62 +196,62 @@ function DerivePowFunc(func: [number, number, number, number, number, number, nu
 }
 
 function DefineParabola(
-    coefficientsDerX : [number, number, number, number, number, number, number][],
-    coefficientsDerY : [number, number, number, number, number, number, number][],
-    coefficientsDerZ : [number, number, number, number, number, number, number][]
-){
+    coefficientsDerX: [number, number, number, number, number, number, number][],
+    coefficientsDerY: [number, number, number, number, number, number, number][],
+    coefficientsDerZ: [number, number, number, number, number, number, number][]
+) {
     let A = "";
     let B = "";
     let C = "";
 
     console.log("Az x szerint deriváltak");
-    for (let tuple of coefficientsDerX){
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
+    for (let tuple of coefficientsDerX) {
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
         console.log("A tuple:" + tuple);
-        if(tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0){
-            
+        if (tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0) {
+
             A += "+x(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
             console.log
         }
-        if(tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0){
+        if (tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0) {
             C += "+x(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
         }
-        if(tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0){
+        if (tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0) {
             B += "+x(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
         }
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
     }
     console.log("Az y szerint deriváltak");
-    for (let tuple of coefficientsDerY){
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
+    for (let tuple of coefficientsDerY) {
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
         console.log("A tuple:" + tuple);
-        if(tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0){
+        if (tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0) {
             A += "+y(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
         }
-        if(tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0){
+        if (tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0) {
             C += "+y(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
         }
-        if(tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0){
+        if (tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0) {
             B += "+y(" + `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`})`;
         }
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
     }
     console.log("A z szerint deriváltak");
-    for (let tuple of coefficientsDerZ){
+    for (let tuple of coefficientsDerZ) {
         console.log("A tuple:" + tuple);
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
-        if(tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0){
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
+        if (tuple[1] == 2 && tuple[2] == 0 && tuple[0] != 0) {
             A += `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`}`;
         }
-        if(tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0){
+        if (tuple[2] == 2 && tuple[1] == 0 && tuple[0] != 0) {
             C += `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`}`;
         }
-        if(tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0){
+        if (tuple[1] == 1 && tuple[2] == 1 && tuple[0] != 0) {
             B += `${tuple[0] < 0 ? tuple[0] : `+${tuple[0]}`}`;
         }
-        console.log("A: " + A + '\n'+ "B: " + B + '\n'+ "C: " + C);
+        console.log("A: " + A + '\n' + "B: " + B + '\n' + "C: " + C);
     }
 
     //return `(${B})^{2}-4(${A})(${C})=0`;
-    return `(${B == "" ? "0" : B})^{2}`+ "-4" + `(${A == "" ? "0" : A})`+ `(${C == "" ? "0" : C})` + "=0";
+    return `(${B == "" ? "0" : B})^{2}` + "-4" + `(${A == "" ? "0" : A})` + `(${C == "" ? "0" : C})` + "=0";
 }
