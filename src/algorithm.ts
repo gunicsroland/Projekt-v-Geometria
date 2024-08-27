@@ -102,10 +102,10 @@ function HomogeneousCoord(coefficients: [number, number, number, number, number,
             sumPow += tuple[i];
         }
         tuple[3] = maxPow - sumPow;
-        console.log("A homogén-koordináták tuple: " + tuple);
+        console.log("A homogén-koordinátás tuple: " + tuple);
     }
 
-    console.log("A homogén-kkordináták vége" + "\n");
+    console.log("A homogén-koordináták vége" + "\n");
     return coefficients;
 }
 

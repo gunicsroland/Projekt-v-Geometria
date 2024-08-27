@@ -14,7 +14,7 @@ app.on('ready', () => {
 
     window.loadFile(path.join(app.getAppPath(), 'src/index.html'));
     window.maximize();
-    //window.webContents.openDevTools();
+    window.webContents.openDevTools();
 });
 
 app.on('window-all-closed', () => {

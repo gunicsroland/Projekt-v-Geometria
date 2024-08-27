@@ -232,6 +232,6 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     }
 
 
-    calculator.setExpression({id: 'pnote', type: 'text', text: 'A ponthoz tartozó polláris: '}) ;
+    calculator.setExpression({id: 'pnote', type: 'text', text: 'A ponthoz tartozó poláris: '}) ;
     calculator.setExpression({id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
 }
