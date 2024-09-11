@@ -109,6 +109,16 @@ function HomogeneousCoord(coefficients: [number, number, number, number, number,
     return coefficients;
 }
 
+function PushNotZeroTerms(coeffs: [number,number,number,number,number,number,number][], terms: [number,number,number,number,number,number,number][]){
+    for (let i = 0; i < terms.length; ++i) {
+
+        if(terms[i][0] == 0){}
+        else{
+            coeffs.push(terms[i]);
+        }
+    }
+}
+
 function TupleDefine(graph: string, i: NumberWrapper) {
     console.log("\nTuple meghatározás");
     /*számhármasokat létrehozni
@@ -182,6 +192,7 @@ function PartialDerivate(coefficients: [number, number, number, number, number, 
         }
         console.log("A derivált tuple: " + DerivedCoeffs[i]);
     }
+    console.log(DerivedCoeffs);
     console.log("A Parciális deriválás vége \n");
     return DerivedCoeffs;
 }

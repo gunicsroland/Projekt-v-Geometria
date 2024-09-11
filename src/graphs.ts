@@ -1,4 +1,4 @@
-function FoliumDescartes(calculator: Desmos.Calculator) : void{
+function FoliumDescartes(calculator: Desmos.Calculator): void {
     calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'A Descartes-féle levél' });
 
@@ -20,7 +20,7 @@ function FoliumDescartes(calculator: Desmos.Calculator) : void{
     calculator.setExpression({ id: 'polar', latex: '2a^2x-abC-aCy+2b^2y-abC-bCx-aCy-bCx=0', color: '#fa7e19' });
 }
 
-function CissoidDiocles(calculator: Desmos.Calculator) : void {
+function CissoidDiocles(calculator: Desmos.Calculator): void {
     calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Dioklész-féle cisszoid' });
 
@@ -44,13 +44,13 @@ function CissoidDiocles(calculator: Desmos.Calculator) : void {
     calculator.setExpression({ id: 'polar', latex: '3a^2x+2aby+b^2x-b^2C-2Cby=0', color: '#fa7e19' });
 }
 
-function ParabolaNeil(calculator: Desmos.Calculator) : void{
+function ParabolaNeil(calculator: Desmos.Calculator): void {
     calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Neil-parabola' });
 
     calculator.setExpression({ id: 'graph', latex: 'y^2=Cx^3', color: '#c74440' });
     calculator.setExpression({ id: 'Cnote', type: 'text', text: 'A C egy konstans' });
-    calculator.setExpression({ id: 'const', latex: 'C=1'})
+    calculator.setExpression({ id: 'const', latex: 'C=1' })
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A Pólus' });
     calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
@@ -66,13 +66,13 @@ function ParabolaNeil(calculator: Desmos.Calculator) : void{
     calculator.setExpression({ id: 'polar', latex: '-3a^2Cx+b^2+by+by=0', color: '#fa7e19' });
 }
 
-function WitchAgnesi(calculator: Desmos.Calculator) : void{
+function WitchAgnesi(calculator: Desmos.Calculator): void {
     calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Agnesi-féle görbe' });
 
     calculator.setExpression({ id: 'graph', latex: 'y=8C^3/(x^2+4C^2)', color: '#c74440' });
     calculator.setExpression({ id: 'Cnote', type: 'text', text: 'A C egy konstans' });
-    calculator.setExpression({ id: 'const', latex: 'C=1'})
+    calculator.setExpression({ id: 'const', latex: 'C=1' })
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A Pólus' });
     calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
@@ -88,17 +88,17 @@ function WitchAgnesi(calculator: Desmos.Calculator) : void{
     calculator.setExpression({ id: 'polar', latex: 'a^2y+2abx+8bC^2+4C32y-24C^3=0', color: '#fa7e19' });
 }
 
-function Strophoid(calculator: Desmos.Calculator): void{
+function Strophoid(calculator: Desmos.Calculator): void {
     calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Sztrofoid' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^2(C+x)+y^2(x-a)=0', color: '#c74440' });
     calculator.setExpression({ id: 'Cnote', type: 'text', text: 'A C egy konstans' });
-    calculator.setExpression({ id: 'const', latex: 'C=1'})
+    calculator.setExpression({ id: 'const', latex: 'C=1' })
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A Pólus' });
     calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
-    calculator.setExpression({ id: 'a', latex: 'a=1', sliderBounds: {min: "0.000001", max: "10"}});
+    calculator.setExpression({ id: 'a', latex: 'a=1', sliderBounds: { min: "0.000001", max: "10" } });
     calculator.setExpression({ id: 'b', latex: 'b=1' });
     calculator.setExpression({ id: 'fnote', type: 'text', text: 'Azok a pontok, mikor a másodrendű görbe parabola lesz erre a görbére esnek:' });
     calculator.setExpression({ id: 'functionf', latex: 'y^2-3x^2+4xC-C^2=0', color: '#2d70b3' });
@@ -122,19 +122,113 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     //coefficient egy tömb amiben tuple-ek vannak az együttható és a változó kitevőjét tartalmazza
     // tuple [ együttható, x kitevő, y kitevő]
     let coefficients = CoeffDefine(graph, coefficient_num);
+
+    let PoF = 0;
+    for (let term of coefficients) {
+        for (let j = 1; j < 4; ++j) {
+            if (PoF < term[j]) {
+                PoF = term[j];
+            }
+        }
+    }
+
     let HomogenCoefficients = HomogeneousCoord(coefficients.concat());
-
-
 
     let coefficientsDerX = PartialDerivate([...HomogenCoefficients], 1);
     let coefficientsDerY = PartialDerivate([...HomogenCoefficients], 2);
     let coefficientsDerZ = PartialDerivate([...HomogenCoefficients], 3);
+    --PoF;
+
+    for (PoF; 2 < PoF; --PoF) {
+        console.log("\n" + PoF + "fokú függvény összerakása\n")
+        let polarCurve: string = "a(";
+        for (let term of coefficientsDerX) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[4];
+        }
+        polarCurve += ")+b(";
+        console.log(polarCurve);
+
+        for (let term of coefficientsDerY) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[5];
+        }
+        polarCurve += ")"
+        console.log(polarCurve);
+        for (let term of coefficientsDerZ) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[6];
+        }
+
+        calculator.setExpression({ id: `${PoF}note`, type: 'text', text: 'A' + ` ${PoF}. görbe` });
+        calculator.setExpression({ id: `${PoF}`, latex: `${polarCurve}=0`, color: '#fa3e19' })
+
+        let tmpX1, tmpX2, tmpX3;
+        tmpX1 = PartialDerivate([...coefficientsDerX], 1);
+        tmpX2 = PartialDerivate([...coefficientsDerY], 1);
+        tmpX3 = PartialDerivate([...coefficientsDerZ], 1);
+
+        let tmpY1, tmpY2, tmpY3;
+        tmpY1 = PartialDerivate([...coefficientsDerY], 2);
+        tmpY2 = PartialDerivate([...coefficientsDerX], 2);
+        tmpY3 = PartialDerivate([...coefficientsDerZ], 2);
+
+        let tmpZ1, tmpZ2, tmpZ3;
+        tmpZ1 = PartialDerivate([...coefficientsDerZ], 3);
+        tmpZ2 = PartialDerivate([...coefficientsDerX], 3);
+        tmpZ3 = PartialDerivate([...coefficientsDerY], 3);
+
+        console.log("A berakandó X tényező: ");
+        console.log(tmpX1);
+        console.log(tmpX2);
+        console.log(tmpX3);
+        console.log("A berakandó Y tényező: ");
+        console.log(tmpY1);
+        console.log(tmpY2);
+        console.log(tmpY3);
+        console.log("A berakandó Z tényező: ");
+        console.log(tmpZ1);
+        console.log(tmpZ2);
+        console.log(tmpZ3);
+
+        coefficientsDerX = [];
+        PushNotZeroTerms(coefficientsDerX, tmpX1);
+        PushNotZeroTerms(coefficientsDerX, tmpX2);
+        PushNotZeroTerms(coefficientsDerX, tmpX3);
+
+        coefficientsDerY = [];
+        PushNotZeroTerms(coefficientsDerY, tmpY1);
+        PushNotZeroTerms(coefficientsDerY, tmpY2);
+        PushNotZeroTerms(coefficientsDerY, tmpY3);
+
+        coefficientsDerZ = [];
+        PushNotZeroTerms(coefficientsDerZ, tmpZ1);
+        PushNotZeroTerms(coefficientsDerZ, tmpZ2);
+        PushNotZeroTerms(coefficientsDerZ, tmpZ3);
+
+    }
+
 
     console.log("A poláris görbe összerakása: ");
     let polarGraph: string = "a(";
     console.log(polarGraph);
     for (let term of coefficientsDerX) {
-        polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+        polarGraph += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
         console.log(polarGraph);
         ++term[4];
     }
@@ -142,14 +236,14 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     console.log(polarGraph);
 
     for (let term of coefficientsDerY) {
-        polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+        polarGraph += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
         console.log(polarGraph);
         ++term[5];
     }
     polarGraph += ")"
     console.log(polarGraph);
     for (let term of coefficientsDerZ) {
-        polarGraph += `${term[0] < 0 ? term[0] : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
+        polarGraph += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
         console.log(polarGraph);
         ++term[6];
     }
@@ -168,42 +262,42 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
 
     let parabolaGraph: string = "";
     parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
-    console.log(parabolaGraph);
+    console.log(parabolaGraph + "A parabola meghatározó egyenlet");
 
-    calculator.setExpression({id: 'cnote', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: '});
-    calculator.setExpression({id: 'functionf', latex: `${parabolaGraph}`, color: "#2d70b3"});
+    calculator.setExpression({ id: 'cnote', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
+    calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}`, color: "#2d70b3" });
 
     console.log("A pólus összerakása: ");
     let polar: string = "a(";
 
-        let tmp1, tmp2;
+    let tmp1, tmp2;
     let polarCoeffX = PartialDerivate([...coefficientsDerX], 1);
-        tmp1 = PartialDerivate([...coefficientsDerY], 1);
-        tmp2 = PartialDerivate([...coefficientsDerZ], 1);
-        for(let i = 0; i < coefficientsDerX.length; ++i){
-            polarCoeffX.push(tmp1[i], tmp2[i]);
-        }
+    tmp1 = PartialDerivate([...coefficientsDerY], 1);
+    tmp2 = PartialDerivate([...coefficientsDerZ], 1);
+    for (let i = 0; i < coefficientsDerX.length; ++i) {
+        polarCoeffX.push(tmp1[i], tmp2[i]);
+    }
     let polarCoeffY = PartialDerivate([...coefficientsDerY], 2);
-        tmp1 = PartialDerivate([...coefficientsDerX], 2);
-        tmp2 = PartialDerivate([...coefficientsDerZ], 2);
-        for(let i = 0; i < coefficientsDerX.length; ++i){
-            polarCoeffY.push(tmp1[i], tmp2[i]);
-        }
+    tmp1 = PartialDerivate([...coefficientsDerX], 2);
+    tmp2 = PartialDerivate([...coefficientsDerZ], 2);
+    for (let i = 0; i < coefficientsDerX.length; ++i) {
+        polarCoeffY.push(tmp1[i], tmp2[i]);
+    }
     let polarCoeffZ = PartialDerivate([...coefficientsDerZ], 3);
-        tmp1 = PartialDerivate([...coefficientsDerX], 3);
-        tmp2 = PartialDerivate([...coefficientsDerY], 3);
-        for(let i = 0; i < coefficientsDerX.length; ++i){
-            polarCoeffZ.push(tmp1[i], tmp2[i]);
-        }
+    tmp1 = PartialDerivate([...coefficientsDerX], 3);
+    tmp2 = PartialDerivate([...coefficientsDerY], 3);
+    for (let i = 0; i < coefficientsDerX.length; ++i) {
+        polarCoeffZ.push(tmp1[i], tmp2[i]);
+    }
 
-    
+
     console.log(polar);
     for (let term of polarCoeffX) {
-        polar += `${term[0] < 0 ? term[0] : `+${term[0]}`}`+
-        `${term[1] == 0 ? "" : "x^" + `${term[1]}`}`+
-        `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`+
-        `${term[4] == 0 ? "" : "a^" + `${term[4]}`}`+
-        `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+        polar += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+            `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+            `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+            `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+            `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
         console.log(polar);
         ++term[4];
     }
@@ -211,27 +305,27 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     console.log(polar);
 
     for (let term of polarCoeffY) {
-        polar += `${term[0] < 0 ? term[0] : `+${term[0]}`}`+
-        `${term[1] == 0 ? "" : "x^" + `${term[1]}`}`+
-        `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`+
-        `${term[4] == 0 ? "" : "a^" + `${term[4]}`}`+
-        `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+        polar += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+            `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+            `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+            `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+            `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
         console.log(polar);
         ++term[5];
     }
     polar += ")"
     console.log(polar);
     for (let term of polarCoeffZ) {
-        polar += `${term[0] < 0 ? term[0] : `+${term[0]}`}`+
-        `${term[1] == 0 ? "" : "x^" + `${term[1]}`}`+
-        `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`+
-        `${term[4] == 0 ? "" : "a^" + `${term[4]}`}`+
-        `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+        polar += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+            `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+            `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+            `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+            `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
         console.log(polar);
         ++term[6];
     }
 
 
-    calculator.setExpression({id: 'pnote', type: 'text', text: 'A ponthoz tartozó poláris: '}) ;
-    calculator.setExpression({id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
+    calculator.setExpression({ id: 'pnote', type: 'text', text: 'A ponthoz tartozó poláris: ' });
+    calculator.setExpression({ id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
 }
