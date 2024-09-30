@@ -107,6 +107,9 @@ function Strophoid(calculator: Desmos.Calculator): void {
 
 function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     console.clear();
+    calculator.destroy();
+    calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+    
     console.log(elements.text.value)
     calculator.setExpression({ id: 'name', type: 'text', text: 'Megadott görbe' });
     calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440' });
@@ -254,7 +257,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     console.log(parabolaGraph + "A parabola meghatározó egyenlet");
 
     calculator.setExpression({ id: 'parabola_note', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
-    calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}`, color: "#2d70b3" });
+    calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}=0`, color: "#2d70b3" });
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
     calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
@@ -322,4 +325,132 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
 
     calculator.setExpression({ id: 'polar_note', type: 'text', text: 'A ponthoz tartozó poláris: ' });
     calculator.setExpression({ id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
+}
+
+function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void{
+    calculator.destroy();
+    calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+    calculator.setExpression({ id: 'name', type: 'text', text: 'Megadott görbe' });
+    calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440', lineWidth: '5' });
+
+    let coefficient_num = CoeffNum(graph);
+    let coefficients = CoeffDefine(graph, coefficient_num);
+
+    let PoF = 0;
+    for (let term of coefficients) {
+        for (let j = 1; j < 4; ++j) {
+            if (PoF < term[j]) {
+                PoF = term[j];
+            }
+        }
+    }
+
+    let HomogenCoefficients = HomogeneousCoord(coefficients.concat());
+
+    let coefficientsDerX = PartialDerivate([...HomogenCoefficients], 1);
+    let coefficientsDerY = PartialDerivate([...HomogenCoefficients], 2);
+    let coefficientsDerZ = PartialDerivate([...HomogenCoefficients], 3);
+    --PoF;
+
+    for (PoF; 2 < PoF; --PoF) {
+        console.log("\n" + PoF + "fokú függvény összerakása\n")
+        let polarCurve: string = "a(";
+        for (let term of coefficientsDerX) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[4];
+        }
+        polarCurve += ")+b(";
+        console.log(polarCurve);
+
+        for (let term of coefficientsDerY) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[5];
+        }
+        polarCurve += ")"
+        console.log(polarCurve);
+        for (let term of coefficientsDerZ) {
+            polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
+                `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
+                `${term[2] == 0 ? "" : "*y^" + `${term[2]}`}` +
+                `${term[4] == 0 ? "" : "a^" + `${term[4]}`}` +
+                `${term[5] == 0 ? "" : "b^" + `${term[5]}`}`;
+            console.log(polarCurve);
+            ++term[6];
+        }
+
+        calculator.setExpression({ id: `${PoF}note`, type: 'text', text: 'A' + ` ${PoF}. görbe` });
+        calculator.setExpression({ id: `${PoF}`, latex: `${polarCurve}=0`, color: '#fa3e19' })
+
+        let tmpX1, tmpX2, tmpX3;
+        tmpX1 = PartialDerivate([...coefficientsDerX], 1);
+        tmpX2 = PartialDerivate([...coefficientsDerY], 1);
+        tmpX3 = PartialDerivate([...coefficientsDerZ], 1);
+
+        let tmpY1, tmpY2, tmpY3;
+        tmpY1 = PartialDerivate([...coefficientsDerY], 2);
+        tmpY2 = PartialDerivate([...coefficientsDerX], 2);
+        tmpY3 = PartialDerivate([...coefficientsDerZ], 2);
+
+        let tmpZ1, tmpZ2, tmpZ3;
+        tmpZ1 = PartialDerivate([...coefficientsDerZ], 3);
+        tmpZ2 = PartialDerivate([...coefficientsDerX], 3);
+        tmpZ3 = PartialDerivate([...coefficientsDerY], 3);
+
+        console.log("A berakandó X tényező: ");
+        console.log(tmpX1);
+        console.log(tmpX2);
+        console.log(tmpX3);
+        console.log("A berakandó Y tényező: ");
+        console.log(tmpY1);
+        console.log(tmpY2);
+        console.log(tmpY3);
+        console.log("A berakandó Z tényező: ");
+        console.log(tmpZ1);
+        console.log(tmpZ2);
+        console.log(tmpZ3);
+
+        coefficientsDerX = [];
+        PushNotZeroTerms(coefficientsDerX, tmpX1);
+        PushNotZeroTerms(coefficientsDerX, tmpX2);
+        PushNotZeroTerms(coefficientsDerX, tmpX3);
+
+        coefficientsDerY = [];
+        PushNotZeroTerms(coefficientsDerY, tmpY1);
+        PushNotZeroTerms(coefficientsDerY, tmpY2);
+        PushNotZeroTerms(coefficientsDerY, tmpY3);
+
+        coefficientsDerZ = [];
+        PushNotZeroTerms(coefficientsDerZ, tmpZ1);
+        PushNotZeroTerms(coefficientsDerZ, tmpZ2);
+        PushNotZeroTerms(coefficientsDerZ, tmpZ3);
+
+    }
+
+    let parabolaGraph: string = "";
+    parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
+    console.log(parabolaGraph + "A parabola meghatározó egyenlet");
+
+    calculator.setExpression({ id:'hiperbole_note', type: 'text', text: 'Azok a pontok mikor a görbe hiperbola lesz: ' })
+    calculator.setExpression({ id: 'functionh', latex: `${parabolaGraph} > 0`, color: "#6042a6" });
+
+    calculator.setExpression({ id: 'ellipse_note', type: 'text', text: 'Azok a pontok mikor a görbe ellipszis lesz: ' })
+    calculator.setExpression({ id: 'functione', latex: `${parabolaGraph} < 0`, color: "#388c46" });
+
+    calculator.setExpression({ id: 'parabola_note', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
+    calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}=0`, color: "#2d70b3", lineWidth: '5' });
+
+    calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
+    calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black', hidden: true});
+    calculator.setExpression({ id: 'a', latex: 'a=1' });
+    calculator.setExpression({ id: 'b', latex: 'b=1' });
 }

@@ -2,23 +2,21 @@
 //A desmos calculator típus függvényei
 declare namespace Desmos {
   interface Calculator {
-    //setExpression overload
-    setExpression(expression: { id: string; latex: string }): void;
-    setExpression(expression: { id: string; latex: string; sliderBounds: { min: string, max: string } }): void;
-    setExpression(expression: { id: string; latex: string; color: string }): void;
-    setExpression(expression: { id: string; type: string; text: string }): void;
-    setExpression(expression: {expression_state: expression_state}): void;
+    setExpression(expression_state: expression_state): void;
 
     setBlank(options?: CalculatorOptions): void;
     destroy(): void;
   }
 
   interface expression_state{
-    id: string;
-    latex: string;
-    color: string;
-    sliderBound: {min: string, max: string};
-    text: string
+    id?: string;
+    type?: string;
+    latex?: string;
+    color?: string;
+    sliderBounds?: {min: string, max: string};
+    text?: string;
+    lineWidth?: string;
+    hidden?: boolean;
   }
 
   interface CalculatorOptions {

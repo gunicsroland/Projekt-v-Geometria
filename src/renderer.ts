@@ -41,17 +41,24 @@ window.addEventListener('load', () => {
 
     elements.text.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            uniqueFunc(calculator, elements.text.value);
+            const option = (elements.calcConstDivide as HTMLInputElement);
+            if (option.checked) {
+                viewPlaneDivision(calculator, elements.text.value);
+            }
+            else {
+                uniqueFunc(calculator, elements.text.value);
+            }
         }
-
     })
 
     document.querySelectorAll('input[name="function"]').forEach((radio) => {
         radio.addEventListener('change', (event) => {
             const value = (event.target as HTMLInputElement).value;
-            const option = (elements.calcConstDivide).value;
-            if (option) {
-                
+            const option = (elements.calcConstDivide as HTMLInputElement);
+            if (option.checked) {
+                if (value == 'unique') {
+                    elements.text.removeAttribute("hidden");
+                }
             }
             else {
                 switch (value) {
