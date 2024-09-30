@@ -1,4 +1,4 @@
-function FoliumDescartes(calculator: Desmos.Calculator, options: Desmos.CalculatorOptions): void {
+function FoliumDescartes(calculator: Desmos.Calculator): void {
     calculator.setExpression({ id: 'name', type: 'text', text: 'A Descartes-féle levél' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^3+y^3-3Cxy=0', color: '#c74440' });
@@ -19,7 +19,7 @@ function FoliumDescartes(calculator: Desmos.Calculator, options: Desmos.Calculat
     calculator.setExpression({ id: 'polar', latex: '2a^2x-abC-aCy+2b^2y-abC-bCx-aCy-bCx=0', color: '#fa7e19' });
 }
 
-function CissoidDiocles(calculator: Desmos.Calculator, options: Desmos.CalculatorOptions): void {
+function CissoidDiocles(calculator: Desmos.Calculator): void {
     calculator.setExpression({ id: 'name', type: 'text', text: 'Dioklész-féle cisszoid' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^3+x*y^2-Cy^2=0', color: '#c74440' });

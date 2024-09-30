@@ -56,11 +56,11 @@ window.addEventListener('load', () => {
             else {
                 switch (value) {
                     case 'FoliumDescartes':
-                        FoliumDescartes(calculator, elements.options);
+                        FoliumDescartes(calculator);
                         elements.text.setAttribute("hidden", "true");
                         break;
                     case 'CissoidDiocles':
-                        CissoidDiocles(calculator, elements.options);
+                        CissoidDiocles(calculator);
                         elements.text.setAttribute("hidden", "true");
                         break;
                     case 'ParabolaNeil':
