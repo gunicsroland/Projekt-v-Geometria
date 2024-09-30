@@ -37,7 +37,7 @@ window.addEventListener('load', () => {
         calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
     })
 
-    
+
 
     elements.text.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -49,32 +49,38 @@ window.addEventListener('load', () => {
     document.querySelectorAll('input[name="function"]').forEach((radio) => {
         radio.addEventListener('change', (event) => {
             const value = (event.target as HTMLInputElement).value;
-
-            switch (value) {
-                case 'FoliumDescartes':
-                    FoliumDescartes(calculator, elements.options);
-                    elements.text.setAttribute("hidden", "true");
-                    break;
-                case 'CissoidDiocles':
-                    CissoidDiocles(calculator, elements.options);
-                    elements.text.setAttribute("hidden", "true");
-                    break;
-                case 'ParabolaNeil':
-                    ParabolaNeil(calculator);
-                    elements.text.setAttribute("hidden", "true");
-                    break;
-                case 'WitchAgnesi':
-                    WitchAgnesi(calculator);
-                    elements.text.setAttribute("hidden", "true");
-                    break;
-                case 'Strophoid':
-                    Strophoid(calculator);
-                    elements.text.setAttribute("hidden", "true");
-                    break;
-                case 'unique':
-                    elements.text.removeAttribute("hidden");
-                    break;
+            const option = (elements.calcConstDivide).value;
+            if (option) {
+                
             }
+            else {
+                switch (value) {
+                    case 'FoliumDescartes':
+                        FoliumDescartes(calculator, elements.options);
+                        elements.text.setAttribute("hidden", "true");
+                        break;
+                    case 'CissoidDiocles':
+                        CissoidDiocles(calculator, elements.options);
+                        elements.text.setAttribute("hidden", "true");
+                        break;
+                    case 'ParabolaNeil':
+                        ParabolaNeil(calculator);
+                        elements.text.setAttribute("hidden", "true");
+                        break;
+                    case 'WitchAgnesi':
+                        WitchAgnesi(calculator);
+                        elements.text.setAttribute("hidden", "true");
+                        break;
+                    case 'Strophoid':
+                        Strophoid(calculator);
+                        elements.text.setAttribute("hidden", "true");
+                        break;
+                    case 'unique':
+                        elements.text.removeAttribute("hidden");
+                        break;
+                }
+            }
+
 
         });
     });
