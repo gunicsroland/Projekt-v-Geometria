@@ -8,12 +8,18 @@ declare namespace Desmos {
     setExpression(expression: { id: string; latex: string; color: string }): void;
     setExpression(expression: { id: string; type: string; text: string }): void;
 
-    setBlank(): void;
+    setBlank(options?: CalculatorOptions): void;
+    destroy(): void;
   }
 
   interface CalculatorOptions {
     keypad?: boolean;
+    showGrid?: boolean;
+    xAxisNumbers?: boolean;
+    yAxisNumbers?: boolean;
   }
+
+
 
   function GraphingCalculator(
     element: HTMLElement,

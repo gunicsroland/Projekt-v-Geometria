@@ -1,5 +1,4 @@
-function FoliumDescartes(calculator: Desmos.Calculator): void {
-    calculator.setBlank();
+function FoliumDescartes(calculator: Desmos.Calculator, options: Desmos.CalculatorOptions): void {
     calculator.setExpression({ id: 'name', type: 'text', text: 'A Descartes-féle levél' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^3+y^3-3Cxy=0', color: '#c74440' });
@@ -20,8 +19,7 @@ function FoliumDescartes(calculator: Desmos.Calculator): void {
     calculator.setExpression({ id: 'polar', latex: '2a^2x-abC-aCy+2b^2y-abC-bCx-aCy-bCx=0', color: '#fa7e19' });
 }
 
-function CissoidDiocles(calculator: Desmos.Calculator): void {
-    calculator.setBlank();
+function CissoidDiocles(calculator: Desmos.Calculator, options: Desmos.CalculatorOptions): void {
     calculator.setExpression({ id: 'name', type: 'text', text: 'Dioklész-féle cisszoid' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^3+x*y^2-Cy^2=0', color: '#c74440' });
@@ -45,7 +43,6 @@ function CissoidDiocles(calculator: Desmos.Calculator): void {
 }
 
 function ParabolaNeil(calculator: Desmos.Calculator): void {
-    calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Neil-parabola' });
 
     calculator.setExpression({ id: 'graph', latex: 'y^2=Cx^3', color: '#c74440' });
@@ -67,7 +64,6 @@ function ParabolaNeil(calculator: Desmos.Calculator): void {
 }
 
 function WitchAgnesi(calculator: Desmos.Calculator): void {
-    calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Agnesi-féle görbe' });
 
     calculator.setExpression({ id: 'graph', latex: 'y=8C^3/(x^2+4C^2)', color: '#c74440' });
@@ -89,7 +85,6 @@ function WitchAgnesi(calculator: Desmos.Calculator): void {
 }
 
 function Strophoid(calculator: Desmos.Calculator): void {
-    calculator.setBlank();
     calculator.setExpression({ id: 'name', type: 'text', text: 'Sztrofoid' });
 
     calculator.setExpression({ id: 'graph', latex: 'x^2(C+x)+y^2(x-a)=0', color: '#c74440' });
@@ -111,7 +106,6 @@ function Strophoid(calculator: Desmos.Calculator): void {
 }
 
 function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
-    calculator.setBlank();
     console.clear();
     console.log(elements.text.value)
     calculator.setExpression({ id: 'name', type: 'text', text: 'Megadott görbe' });
@@ -248,24 +242,24 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
         ++term[6];
     }
 
-    calculator.setExpression({ id: 'cnote', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
+    calculator.setExpression({ id: 'curve_note', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
     calculator.setExpression({
         id: 'polarCurve', latex:
             `${polarGraph}=0`,
         color: '#388c46'
     })
 
-    calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
-    calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
-    calculator.setExpression({ id: 'a', latex: 'a=1' });
-    calculator.setExpression({ id: 'b', latex: 'b=1' });
-
     let parabolaGraph: string = "";
     parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
     console.log(parabolaGraph + "A parabola meghatározó egyenlet");
 
-    calculator.setExpression({ id: 'cnote', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
+    calculator.setExpression({ id: 'parabola_note', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
     calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}`, color: "#2d70b3" });
+
+    calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
+    calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black' });
+    calculator.setExpression({ id: 'a', latex: 'a=1' });
+    calculator.setExpression({ id: 'b', latex: 'b=1' });
 
     console.log("A pólus összerakása: ");
     let polar: string = "a(";
@@ -326,6 +320,6 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     }
 
 
-    calculator.setExpression({ id: 'pnote', type: 'text', text: 'A ponthoz tartozó poláris: ' });
+    calculator.setExpression({ id: 'polar_note', type: 'text', text: 'A ponthoz tartozó poláris: ' });
     calculator.setExpression({ id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
 }
