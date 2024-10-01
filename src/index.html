@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'
          https://www.desmos.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:;"> -->
-    <title>Polinom néző</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    
-    <style>
+        <title>Polinom néző</title>
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <style>
         #calculator {
             width: 100%;
             height: 700px;
@@ -17,37 +15,116 @@
         .controls {
             margin: 10px;
         }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        
-        <div class="controls">
-            <label><input type="radio" id="FullDerivate" name="choose" value="FullDerivate">Teljes elemzés</label>
-            <label><input type="radio" id="SpaceDistribute" name="choose" value="SpaceDistribute">Felosztás elemzés</label>
-            <label><input type="radio" id="radio" name="function" value="FoliumDescartes"> Descartes - féle levél </label>
-            <label><input type="radio" id="radio" name="function" value="CissoidDiocles"> Dioklész-féle cisszoid </label>
-            <label><input type="radio" id="radio" name="function" value="ParabolaNeil"> Neil-parabola </label>
-            <label><input type="radio" id="radio" name="function" value="WitchAgnesi"> Agnesi-féle görbe </label>
-            <label><input type="radio" id="radio" name="function" value="Strophoid"> Sztrofoid </label>
-            <label><input type="radio" id="uniqueRadio" name="function" value="unique"> Egyedi megadása </label>
-            <label>
-                <input type="text" name="unique" id="unique" placeholder="saját polinom megadása" hidden="true">
-            </label>
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="controls">
+                <label>
+                    <input
+                        type="radio"
+                        id="Clean"
+                        name="clean"
+                        value="Clean"
+                    >Törlés
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        id="FullDerivate"
+                        name="option"
+                        value="FullDerivate"
+                    >Teljes elemzés
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        id="SpaceDistribute"
+                        name="option"
+                        value="SpaceDistribute"
+                    >Felosztás elemzés
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="FoliumDescartes"
+                        name="FoliumDescartes"
+                        value="x^{3}+y^{3}-3xy=0"
+                    > Descartes - féle levél
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="CissoidDiocles"
+                        name="CissoidDiocles"
+                        value="x^{3}+x*y^{2}-y^{2}=0"
+                    > Dioklész-féle cisszoid
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="ParabolaNeil"
+                        name="ParabolaNeil"
+                        value="y^{2}-x^{3}=0"
+                    > Neil-parabola
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="WitchAgnesi"
+                        name="WitchAgnesi"
+                        value="x^2y+4y-8=0"
+                    > Agnesi-féle görbe
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="Strophoid"
+                        name="Strophoid"
+                        value="x^{2}+x^{3}+xy^{2}-y^{2}=0"
+                    > Sztrofoid
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="uniqueRadio"
+                        name="function"
+                        value="unique"
+                    > Egyedi megadása
+                </label>
+                <label>
+                    <input
+                        type="text"
+                        name="unique"
+                        id="unique"
+                        placeholder="saját polinom megadása"
+                        hidden="true"
+                    >
+                </label>
+            </div>
+            <div class="list">
+                <label>
+                    <input
+                        type="radio"
+                        class="function"
+                        id="x^3-xy=0"
+                        name="function"
+                        value="x^{3}-xy=0"
+                    > x^3-xy
+                </label>
+            </div>
+            <div id="calculator"></div>
         </div>
-        <div id="calculator"></div>
-    </div>
-
-
-
-
-
-    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../dist/renderer.js"></script>
-    <script src="../dist/algorithm.js"></script>
-    <script src="../dist/graphs.js"></script>
-</body>
-
+        <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../dist/renderer.js"></script>
+        <script src="../dist/algorithm.js"></script>
+        <script src="../dist/graphs.js"></script>
+    </body>
 </html>

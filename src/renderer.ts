@@ -1,23 +1,25 @@
 let elements: {
     calculatorDiv: HTMLDivElement,
-    radioButton: HTMLButtonElement,
+    radioButton: HTMLCollection,
     text: HTMLTextAreaElement,
     uniqueRadioButton: HTMLButtonElement,
     calcConstFull: HTMLButtonElement,
     calcConstDivide: HTMLButtonElement,
-    options: Desmos.CalculatorOptions
+    options: Desmos.CalculatorOptions,
+    clean: HTMLInputElement
 };
 
 window.addEventListener('load', () => {
     elements = {
         calculatorDiv: document.getElementById('calculator') as HTMLDivElement,
-        radioButton: document.getElementById('radio') as HTMLButtonElement,
+        radioButton: document.getElementsByClassName('function') as HTMLCollection,
         text: document.getElementById('unique') as HTMLTextAreaElement,
         uniqueRadioButton: document.getElementById('uniqueRadio') as HTMLButtonElement,
         calcConstFull: document.getElementById('FullDerivate') as HTMLButtonElement,
         calcConstDivide: document.getElementById('SpaceDistribute') as HTMLButtonElement,
         options: {
-        }
+        },
+        clean: document.getElementById('Clean') as HTMLInputElement
     };
 
     let calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
@@ -26,6 +28,12 @@ window.addEventListener('load', () => {
         elements.options = {}
         calculator.destroy();
         calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+
+        Array.from(elements.radioButton).forEach((radio) => {
+            const button = radio as HTMLInputElement;
+            button.checked = false;
+        })
+
     })
     elements.calcConstDivide.addEventListener('change', (event) => {
         elements.options = {
@@ -35,9 +43,21 @@ window.addEventListener('load', () => {
         }
         calculator.destroy();
         calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+        Array.from(elements.radioButton).forEach((radio) => {
+            const button = radio as HTMLInputElement;
+            button.checked = false;
+        })
     })
+    elements.clean.addEventListener('change', (event) => {
+        calculator.destroy();
+        calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+        elements.clean.checked = false;
 
-
+        Array.from(elements.radioButton).forEach((radio) => {
+            const button = radio as HTMLInputElement;
+            button.checked = false;
+        })
+    })
 
     elements.text.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -51,17 +71,32 @@ window.addEventListener('load', () => {
         }
     })
 
-    document.querySelectorAll('input[name="function"]').forEach((radio) => {
+    Array.from(elements.radioButton).forEach((radio) => {
         radio.addEventListener('change', (event) => {
+            calculator.destroy();
+            calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+            const id = (event.target as HTMLInputElement).id;
             const value = (event.target as HTMLInputElement).value;
             const option = (elements.calcConstDivide as HTMLInputElement);
+
+            Array.from(elements.radioButton).forEach((radio) => {
+                if (radio.id != id) {
+                    const radio_element = radio as HTMLInputElement;
+                    radio_element.checked = false;
+                }
+            })
+
             if (option.checked) {
                 if (value == 'unique') {
                     elements.text.removeAttribute("hidden");
                 }
+                else {
+                    viewPlaneDivision(calculator, value);
+                    console.log(value);
+                }
             }
             else {
-                switch (value) {
+                switch (id) {
                     case 'FoliumDescartes':
                         FoliumDescartes(calculator);
                         elements.text.setAttribute("hidden", "true");
@@ -82,9 +117,12 @@ window.addEventListener('load', () => {
                         Strophoid(calculator);
                         elements.text.setAttribute("hidden", "true");
                         break;
-                    case 'unique':
+                    case 'uniqueRadio':
                         elements.text.removeAttribute("hidden");
                         break;
+                    default:
+                        uniqueFunc(calculator, value);
+                        console.log(value);
                 }
             }
 

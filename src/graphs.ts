@@ -107,12 +107,10 @@ function Strophoid(calculator: Desmos.Calculator): void {
 
 function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     console.clear();
-    calculator.destroy();
-    calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
-    
+
     console.log(elements.text.value)
     calculator.setExpression({ id: 'name', type: 'text', text: 'Megadott görbe' });
-    calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440' });
+    calculator.setExpression({ id: 'graph', latex: graph, color: '#c74440' });
 
     let coefficient_num = CoeffNum(graph);
 
@@ -222,14 +220,14 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
 
 
     console.log("A poláris görbe összerakása: ");
-    let polarGraph: string = "a(";
+    let polarGraph: string = "a(0+";
     console.log(polarGraph);
     for (let term of coefficientsDerX) {
         polarGraph += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
         console.log(polarGraph);
         ++term[4];
     }
-    polarGraph += ")+b(";
+    polarGraph += ")+b(0+";
     console.log(polarGraph);
 
     for (let term of coefficientsDerY) {
@@ -245,7 +243,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
         ++term[6];
     }
 
-    calculator.setExpression({ id: 'curve_note', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
+    calculator.setExpression({ id: 'cnote', type: 'text', text: 'A pólushoz tartozó poláris görbe' });
     calculator.setExpression({
         id: 'polarCurve', latex:
             `${polarGraph}=0`,
@@ -256,7 +254,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
     console.log(parabolaGraph + "A parabola meghatározó egyenlet");
 
-    calculator.setExpression({ id: 'parabola_note', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
+    calculator.setExpression({ id: 'fnote', type: 'text', text: 'Azok a pontok mikor a görbe parabola lesz: ' });
     calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}=0`, color: "#2d70b3" });
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
@@ -265,7 +263,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     calculator.setExpression({ id: 'b', latex: 'b=1' });
 
     console.log("A pólus összerakása: ");
-    let polar: string = "a(";
+    let polar: string = "a(0+";
 
     let tmp1, tmp2;
     let polarCoeffX = PartialDerivate([...coefficientsDerX], 1);
@@ -298,7 +296,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
         console.log(polar);
         ++term[4];
     }
-    polar += ")+b(";
+    polar += ")+b(0+";
     console.log(polar);
 
     for (let term of polarCoeffY) {
@@ -323,15 +321,15 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     }
 
 
-    calculator.setExpression({ id: 'polar_note', type: 'text', text: 'A ponthoz tartozó poláris: ' });
+    calculator.setExpression({ id: 'pnote', type: 'text', text: 'A ponthoz tartozó poláris: ' });
     calculator.setExpression({ id: 'polar', latex: `${polar}=0`, color: '#fa7e19' })
+
+    console.log(graph);
 }
 
-function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void{
-    calculator.destroy();
-    calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void {
     calculator.setExpression({ id: 'name', type: 'text', text: 'Megadott görbe' });
-    calculator.setExpression({ id: 'graph', latex: elements.text.value, color: '#c74440', lineWidth: '5' });
+    calculator.setExpression({ id: 'graph', latex: graph, color: '#c74440', lineWidth: '5' });
 
     let coefficient_num = CoeffNum(graph);
     let coefficients = CoeffDefine(graph, coefficient_num);
@@ -440,7 +438,7 @@ function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void{
     parabolaGraph = DefineParabola(coefficientsDerX, coefficientsDerY, coefficientsDerZ);
     console.log(parabolaGraph + "A parabola meghatározó egyenlet");
 
-    calculator.setExpression({ id:'hiperbole_note', type: 'text', text: 'Azok a pontok mikor a görbe hiperbola lesz: ' })
+    calculator.setExpression({ id: 'hiperbole_note', type: 'text', text: 'Azok a pontok mikor a görbe hiperbola lesz: ' })
     calculator.setExpression({ id: 'functionh', latex: `${parabolaGraph} > 0`, color: "#6042a6" });
 
     calculator.setExpression({ id: 'ellipse_note', type: 'text', text: 'Azok a pontok mikor a görbe ellipszis lesz: ' })
@@ -450,7 +448,7 @@ function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void{
     calculator.setExpression({ id: 'functionf', latex: `${parabolaGraph}=0`, color: "#2d70b3", lineWidth: '5' });
 
     calculator.setExpression({ id: 'note', type: 'text', text: 'A pólus' });
-    calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black', hidden: true});
+    calculator.setExpression({ id: 'pole', latex: '(a,b)', color: 'black', hidden: true });
     calculator.setExpression({ id: 'a', latex: 'a=1' });
     calculator.setExpression({ id: 'b', latex: 'b=1' });
 }
