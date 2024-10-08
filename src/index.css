@@ -22,3 +22,8 @@
     display: flex;
     flex-direction: row;
 }
+
+#list_left, #list_right{
+    display: flex;
+    flex-direction: column;
+}
