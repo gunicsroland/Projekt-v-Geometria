@@ -136,7 +136,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
 
     for (PoF; 2 < PoF; --PoF) {
         console.log("\n" + PoF + "fokú függvény összerakása\n")
-        let polarCurve: string = "a(";
+        let polarCurve: string = "a(0";
         for (let term of coefficientsDerX) {
             polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
                 `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
@@ -146,7 +146,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
             console.log(polarCurve);
             ++term[4];
         }
-        polarCurve += ")+b(";
+        polarCurve += ")+b(0";
         console.log(polarCurve);
 
         for (let term of coefficientsDerY) {
@@ -220,14 +220,14 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
 
 
     console.log("A poláris görbe összerakása: ");
-    let polarGraph: string = "a(0+";
+    let polarGraph: string = "a(0";
     console.log(polarGraph);
     for (let term of coefficientsDerX) {
         polarGraph += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}${term[1] == 0 ? "" : "x^" + `${term[1]}`}${term[2] == 0 ? "" : "*y^" + `${term[2]}`}`;
         console.log(polarGraph);
         ++term[4];
     }
-    polarGraph += ")+b(0+";
+    polarGraph += ")+b(0";
     console.log(polarGraph);
 
     for (let term of coefficientsDerY) {
@@ -263,7 +263,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
     calculator.setExpression({ id: 'b', latex: 'b=1' });
 
     console.log("A pólus összerakása: ");
-    let polar: string = "a(0+";
+    let polar: string = "a(0";
 
     let tmp1, tmp2;
     let polarCoeffX = PartialDerivate([...coefficientsDerX], 1);
@@ -296,7 +296,7 @@ function uniqueFunc(calculator: Desmos.Calculator, graph: string): void {
         console.log(polar);
         ++term[4];
     }
-    polar += ")+b(0+";
+    polar += ")+b(0";
     console.log(polar);
 
     for (let term of polarCoeffY) {
@@ -352,7 +352,7 @@ function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void {
 
     for (PoF; 2 < PoF; --PoF) {
         console.log("\n" + PoF + "fokú függvény összerakása\n")
-        let polarCurve: string = "a(";
+        let polarCurve: string = "a(0";
         for (let term of coefficientsDerX) {
             polarCurve += `${term[0] < 0 ? term[0] : term[0] == 0 ? "" : `+${term[0]}`}` +
                 `${term[1] == 0 ? "" : "x^" + `${term[1]}`}` +
@@ -362,7 +362,7 @@ function viewPlaneDivision(calculator: Desmos.Calculator, graph: string): void {
             console.log(polarCurve);
             ++term[4];
         }
-        polarCurve += ")+b(";
+        polarCurve += ")+b(0";
         console.log(polarCurve);
 
         for (let term of coefficientsDerY) {
