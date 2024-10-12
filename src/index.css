@@ -21,9 +21,11 @@
 #list{
     display: flex;
     flex-direction: row;
+    margin-right: 5px;
 }
 
 #list_left, #list_right{
     display: flex;
     flex-direction: column;
+    padding-right: 5px;
 }
