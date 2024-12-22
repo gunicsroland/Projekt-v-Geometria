@@ -23,6 +23,7 @@ window.addEventListener('load', () => {
     };
 
     let calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
+    
 
     elements.calcConstFull.addEventListener('change', (event) => {
         elements.options = {}
@@ -61,11 +62,12 @@ window.addEventListener('load', () => {
 
     elements.text.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            const option = (elements.calcConstDivide as HTMLInputElement);
-            if (option.checked) {
+            const option1 = (elements.calcConstFull as HTMLInputElement);
+            const option2 = (elements.calcConstDivide as HTMLInputElement);
+            if (option2.checked) {
                 viewPlaneDivision(calculator, elements.text.value);
             }
-            else {
+            if (option1.checked) {
                 uniqueFunc(calculator, elements.text.value);
             }
         }
@@ -77,7 +79,8 @@ window.addEventListener('load', () => {
             calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
             const id = (event.target as HTMLInputElement).id;
             const value = (event.target as HTMLInputElement).value;
-            const option = (elements.calcConstDivide as HTMLInputElement);
+            const option1 = (elements.calcConstFull as HTMLInputElement);
+            const option2 = (elements.calcConstDivide as HTMLInputElement);
 
             Array.from(elements.radioButton).forEach((radio) => {
                 if (radio.id != id) {
@@ -86,7 +89,7 @@ window.addEventListener('load', () => {
                 }
             })
 
-            if (option.checked) {
+            if (option2.checked) {
                 if (value == 'unique') {
                     elements.text.removeAttribute("hidden");
                 }
@@ -95,7 +98,7 @@ window.addEventListener('load', () => {
                     console.log(value);
                 }
             }
-            else {
+            if (option1.checked) {
                 switch (id) {
                     case 'FoliumDescartes':
                         FoliumDescartes(calculator);

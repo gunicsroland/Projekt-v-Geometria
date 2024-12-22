@@ -13,17 +13,18 @@
 
 <body>
     <div class="container">
-        <div id="top">
+        <div class="top">
             <div class="controls">
                 <label>
                     <input type="radio" id="Clean" name="clean" value="Clean">Törlés
                 </label>
                 <label>
-                    <input type="radio" id="FullDerivate" name="option" value="FullDerivate">Teljes elemzés
+                    <input type="radio" id="FullDerivate" name="option" value="FullDerivate" checked>Teljes elemzés
                 </label>
                 <label>
                     <input type="radio" id="SpaceDistribute" name="option" value="SpaceDistribute">Felosztás elemzés
                 </label>
+                <!--
                 <label>
                     <input type="radio" class="function" id="FoliumDescartes" name="FoliumDescartes"
                         value="x^{3}+y^{3}-3xy=0"> Descartes - féle levél
@@ -44,6 +45,7 @@
                     <input type="radio" class="function" id="Strophoid" name="Strophoid" value="x^{2}+x^{3}+xy^{2}-y^{2}=0">
                     Sztrofoid
                 </label>
+                -->
                 <label>
                     <input type="radio" class="function" id="uniqueRadio" name="function" value="unique"> Egyedi megadása
                 </label>
@@ -86,13 +88,13 @@
                         <input type="radio" class="function" id="(x^2-y^2-1)(y+1)" name="function" value="x^2y-y^3-y+x^2-y^2-1=0">(x^2-y^2-1)(y+1)
                     </label>
                     <label>
-                        <input type="radio" class="function" id="(x^2-y^2-1)(x+y+1)" name="function" value="x^3+x^2y+x^2-xy^2-y^2-x-y-1=0">(x^2-y^2-1)(x+y+1)
+                        <input type="radio" class="function" id="(x^2-y^2-1)(x+y+1)" name="function" value="x^3-xy^2-x+x^2y-y^3-y+x^2-y^2-1=0">(x^2-y^2-1)(x+y+1)
                     </label>
                     <label>
                         <input type="radio" class="function" id="(x^2-y^2-1)(x+y)" name="function" value="x^3-xy^2-x+x^2y-y^3-y=0">(x^2-y^2-1)(x+y)
                     </label>
                     <label>
-                        <input type="radio" class="function" id="(x^2-y^2-1)(x)" name="function" value="x^3-xy^2-x+x^2-y^2-1=0">(x^2-y^2-1)(x)
+                        <input type="radio" class="function" id="(x^2-y^2-1)(x)" name="function" value="x^3-xy^2-x+x^2-y^2-1=0">(x^2-y^2-1)(x+1)
                     </label>
                 </div>
                 <div id="list_right">
@@ -136,6 +138,9 @@
                         <input type="radio" class="function" id="xy^2-x+1" name="function" value="xy^2-x+1=0">xy^2-x+1
                     </label>
                     <label>
+                        <input type="radio" class="function" id="xy^2+y-x+2" name="function" value="xy^2+y-x+2=0">xy^2+y-x+2
+                    </label>
+                    <label>
                         <input type="radio" class="function" id="xy^2+y+x+1" name="function" value="xy^2+y+x+1=0">xy^2+y+x+1
                     </label>
                     <label>
@@ -166,10 +171,10 @@
                         <input type="radio" class="function" id="x^3-xy^2-x^2+x+1" name="function" value="x^3-xy^2-x^2+x+1=0">x^3-xy^2-x^2+x+1
                     </label>
                     <label>
-                        <input type="radio" class="function" id="x^3-xy^2+x" name="function" value="">not implemnted
+                        <input type="radio" class="function" id="x^3-xy^2-y+x+1" name="function" value="x^3-xy^2-y+x+1=0">x^3-xy^2-y+x+1
                     </label>
                     <label>
-                        <input type="radio" class="function" id="" name="function" value="">not implemented
+                        <input type="radio" class="function" id="x^3-xy^2-y-5x=0" name="function" value="x^3-xy^2-y-5x=0">x^3-xy^2-y-5x=0
                     </label>
                     <label>
                         <input type="radio" class="function" id="x^3-xy^2+1" name="function" value="x^3-xy^2+1=0">x^3-xy^2+1
