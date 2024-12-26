@@ -6,7 +6,8 @@ let elements: {
     calcConstFull: HTMLButtonElement,
     calcConstDivide: HTMLButtonElement,
     options: Desmos.CalculatorOptions,
-    clean: HTMLInputElement
+    clean: HTMLInputElement,
+    load_bezier: HTMLButtonElement
 };
 
 window.addEventListener('load', () => {
@@ -19,7 +20,8 @@ window.addEventListener('load', () => {
         calcConstDivide: document.getElementById('SpaceDistribute') as HTMLButtonElement,
         options: {
         },
-        clean: document.getElementById('Clean') as HTMLInputElement
+        clean: document.getElementById('Clean') as HTMLInputElement,
+        load_bezier: document.getElementById('load_bezier') as HTMLButtonElement
     };
 
     let calculator = Desmos.GraphingCalculator(elements.calculatorDiv, elements.options);
@@ -132,6 +134,10 @@ window.addEventListener('load', () => {
 
         });
     });
+
+    elements.load_bezier.addEventListener('click', () => {
+        window.api.load_bezier()
+    })
 });
 
 

@@ -20,6 +20,14 @@ const api = {
         ipcRenderer.on('read-post', (_, args) => {
             callback(args[0] ?? '');
         })
+    },
+
+    load_bezier: () => {
+        ipcRenderer.send('load_bezier')
+    },
+
+    load_index: () => {
+        ipcRenderer.send('load_index')
     }
 }
 

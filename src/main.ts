@@ -23,6 +23,20 @@ app.on('window-all-closed', () => {
     }
 });
 
+ipcMain.on('load_bezier', () => {
+    if(window){
+        window.loadFile(path.join(app.getAppPath(), 'src/bezier.html'));
+    }
+    window.webContents.openDevTools();
+});
+
+ipcMain.on('load_index', () => {
+    if(window){
+        window.loadFile(path.join(app.getAppPath(), 'src/index.html'));
+    }
+    window.webContents.openDevTools();
+});
+
 ipcMain.on('read', () => {
     fs.readFile(path.join(app.getAppPath(), 'content.txt'), (err, content) => {
         if (err){
