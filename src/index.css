@@ -5,10 +5,18 @@
 
 .controls {
     margin: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .controls label{
     margin-right: 15px;
+}
+
+#load_bezier{
+    background-color: #212529;
+    border: none;
 }
 
 .container{

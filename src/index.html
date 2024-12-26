@@ -15,16 +15,17 @@
     <div class="container">
         <div class="top">
             <div class="controls">
-                <label>
-                    <input type="radio" id="Clean" name="clean" value="Clean">Törlés
-                </label>
-                <label>
-                    <input type="radio" id="FullDerivate" name="option" value="FullDerivate" checked>Teljes elemzés
-                </label>
-                <label>
-                    <input type="radio" id="SpaceDistribute" name="option" value="SpaceDistribute">Felosztás elemzés
-                </label>
-                <!--
+                <div class="controls_left">
+                    <label>
+                        <input type="radio" id="Clean" name="clean" value="Clean">Törlés
+                    </label>
+                    <label>
+                        <input type="radio" id="FullDerivate" name="option" value="FullDerivate" checked>Teljes elemzés
+                    </label>
+                    <label>
+                        <input type="radio" id="SpaceDistribute" name="option" value="SpaceDistribute">Felosztás elemzés
+                    </label>
+                    <!--
                 <label>
                     <input type="radio" class="function" id="FoliumDescartes" name="FoliumDescartes"
                         value="x^{3}+y^{3}-3xy=0"> Descartes - féle levél
@@ -46,12 +47,16 @@
                     Sztrofoid
                 </label>
                 -->
-                <label>
-                    <input type="radio" class="function" id="uniqueRadio" name="function" value="unique"> Egyedi megadása
-                </label>
-                <label>
-                    <input type="text" name="unique" id="unique" placeholder="saját polinom megadása" hidden="true">
-                </label>
+                    <label>
+                        <input type="radio" class="function" id="uniqueRadio" name="function" value="unique"> Egyedi megadása
+                    </label>
+                    <label>
+                        <input type="text" name="unique" id="unique" placeholder="saját polinom megadása" hidden="true">
+                    </label>
+                </div>
+                <div class="controls_right">
+                    <input type="button" id="load_bezier" value="Bézier görbe vizsgálata">
+                </div>
             </div>
         </div>
         <div id="bottom">
