@@ -3,7 +3,6 @@
 declare namespace Desmos {
   interface Calculator {
     setExpression(expression_state: expression_state): void;
-
     setBlank(options?: CalculatorOptions): void;
     destroy(): void;
   }
@@ -17,6 +16,7 @@ declare namespace Desmos {
     text?: string;
     lineWidth?: string;
     hidden?: boolean;
+    columns?: Column[];
   }
 
   interface CalculatorOptions {
@@ -26,7 +26,22 @@ declare namespace Desmos {
     yAxisNumbers?: boolean;
   }
 
+  interface Column {
+    latex: string;
+    values: string[];
+    color?: string;
+    hidden?: boolean;
+    points?: boolean;
+    lines?: boolean;
+    dragMode?: DragModes;
+  }
 
+  enum DragModes{
+    X,
+    Y,
+    XY,
+    NONE
+  }
 
   function GraphingCalculator(
     element: HTMLElement,
