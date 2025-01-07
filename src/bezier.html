@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bézier-görbe vizsgálata</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./bezier.css">
 </head>
 <body>
+    <div class="container">
+        <div class="top">
+            <div class="controls">
+                <div class="controls_left">
+
+                </div>
+                <div clas="controls_right">
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div id="list">
+
+            </div>
+            <div id="calculator"></div>
+        </div>
+    </div>
     <input type="button" id="load_index" value="polinom vizsgálata">
 
+
+    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <script src="../dist/bezier.js"></script>
 </body>
 </html>
