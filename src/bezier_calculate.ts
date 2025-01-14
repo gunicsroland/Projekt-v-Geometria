@@ -3,6 +3,11 @@ function showBezier(calculator: Desmos.Calculator) {
     let num = parseInt(bezier_elements.point_num_node.value) - 1;
     generate_coord_table(calculator);
     generate_weight_table(calculator, num+1);
+
+    //lamdba determináns
+    calculator.setExpression({id: "lambda_determinant", latex: 
+        `\\lambda(i,j,k)= c_x[i](c_y[j]-c_y[k])-c_y[i](c_x[j]-c_x[k])+c_x[j]c_y[k]-c_x[k]c_y[j]`});
+    generate_lambda_table(calculator);
     
     calculator.setExpression({
         id: 'bezierf', latex: `B_{${num+1}}(t,P)=`
@@ -56,4 +61,36 @@ function generate_weight_table(calculator: Desmos.Calculator, num : number) {
 
     }
     calculator.setExpression({ id: 'table_weight', type: 'table', columns: [col1] });
+}
+
+// A lambda táblázatot generáló függvény
+function generate_lambda_table(calculator: Desmos.Calculator) {
+    let col1_values: string[] = [];
+    col1_values.push("\\lambda(4,3,2)");
+    col1_values.push("\\lambda(3,4,1)");
+    col1_values.push("\\lambda(2,1,4)");
+    col1_values.push("\\lambda(1,2,3)");
+
+    const col1: Desmos.Column = {
+        latex: "\\lambda_i",
+        values: col1_values
+    };
+    const col2: Desmos.Column = {
+        latex: "\\lambda(4,3,2)",
+        points: false
+    };
+    const col3: Desmos.Column = {
+        latex: "\\lambda(3,4,1)",
+        points: false
+    };
+    const col4: Desmos.Column = {
+        latex: "\\lambda(2,1,4)",
+        points: false
+    };
+    const col5: Desmos.Column = {
+        latex: "\\lambda(1,2,3)",
+        points: false
+    };
+
+    calculator.setExpression({ id: 'table_lambda', type: 'table', columns: [col1, col2, col3, col4, col5] });
 }

@@ -28,7 +28,7 @@ declare namespace Desmos {
 
   interface Column {
     latex: string;
-    values: string[];
+    values?: string[];
     color?: string;
     hidden?: boolean;
     points?: boolean;
