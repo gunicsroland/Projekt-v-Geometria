@@ -21,13 +21,22 @@ window.addEventListener('load', () => {
     let calculator = Desmos.GraphingCalculator(bezier_elements.calculatorDiv, bezier_elements.options);
     const col1 : Desmos.Column = {
         latex: "x_1",
-        values: ["1", "2", "3"]
+        values: ["1", "2", "3"],
+        points: true,
+        lines: true,
+        dragMode: Desmos.DragModes.XY
     };
     const col2 : Desmos.Column = {
         latex: "y_1",
-        values: ["1", "2", "1"]
+        values: ["1", "2", "1"],
+        points: true,
+        lines: true,
+        dragMode: Desmos.DragModes.XY
     };
     calculator.setExpression({id: 'table', type: 'table', columns: [col1, col2]}); 
+    calculator.setExpression({id: 'bezierf', latex: `B_{${bezier_elements.point_num_node.value}}(t,P)`
+        +`=\\sum_{i=0}^{2}(\\operatorname{nCr}(2,i)(1-t)^{2-i}t^{i}P[i+1])`});
+    calculator.setExpression({id: 'bezierc', latex: `B_{${bezier_elements.point_num_node.value}}(t,(x_1,y_1))`});
 
     let point_num = parseInt(bezier_elements.point_num_node.value);
     generate_coords(point_num);
@@ -71,6 +80,11 @@ window.addEventListener('load', () => {
             dragMode: Desmos.DragModes.XY
         };
         calculator.setExpression({id: 'table', type: 'table', columns: [col1, col2]});
+        let num = parseInt(bezier_elements.point_num_node.value)-1;
+        calculator.setExpression({id: 'bezierf', latex: `B_{${bezier_elements.point_num_node.value}}(t,P)=`
+        +`\\sum_{i=0}^{${num}}(\\operatorname{nCr}(${num},i)`
+        +`(1-t)^{${num}-i}t^{i}P[i+1])`});
+        calculator.setExpression({id: 'bezierc', latex: `B_{${bezier_elements.point_num_node.value}}(t,(x_1,y_1))`});
     })
 })
 
