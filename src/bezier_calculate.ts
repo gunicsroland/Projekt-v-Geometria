@@ -1,4 +1,6 @@
-function showBezier(calculator: Desmos.Calculator) {
+function showBezier4(calculator: Desmos.Calculator) {
+
+    calculator.setBlank();
 
     let num = parseInt(bezier_elements.point_num_node.value) - 1;
     generate_coord_table(calculator);
@@ -47,13 +49,30 @@ function showBezier(calculator: Desmos.Calculator) {
     calculator.setExpression({ id: 'bezierc', latex: `B_{${bezier_elements.point_num_node.value}}(t,(c_x,c_y))` });
 
     // bezier görbe implicit egyenlete
-    calculator.setExpression({ id: 'bezier_implicit', latex: `g(x,y,x_{3})=\\{\\{\\phi[1]\ =0:0,1\\}+\\{\\phi[2]=0:0,1\\}=0:u(0)u(3)L(x,y,x_{3},1,4)^{2}-u(1)u(2)L(x,y,x_{3},1,2)L(x,y,x_{3},3,4),b[1]K_{1}(x,y,x_{3})+b[2]K_{2}(x,y,x_{3})+b[3]K_{3}(x,y,x_{3})+b[4]K_{4}(x,y,x_{3})\\}` });
+    calculator.setExpression({ id: 'bezier_implicit', latex: 'g(x,y,x_3)=\\{\\phi[1] =0:0,1+\\phi[2]=0:0,1=0:u(0)u(3)L(x,y,x_3,1,4)^{2}-u(1)u(2)L(x,y,x_3,1,2)L(x,y,x_3,3,4),b[1]K_1(x,y,x_3)+b[2]K_2(x,y,x_3)+b[3]K_3(x,y,x_3)+b[4]K_4(x,y,x_3)\\}' });
 
-    // a görbe megjelenítése
+    // a görbe megjelenítése    
     calculator.setExpression({ id: 'implicit_call', latex: `g(x,y,z)1=0` });
 
     // a poláris görbe egyenlete
     calculator.setExpression({ id: 'polar_curve', latex: "\\alpha\\frac{d}{dx}(g(x,y,z))+\\beta\\frac{d}{dy}(g(x,y,z))+\\frac{d}{dz}(g(x,y,z))=0" });
+}
+
+function showBezier3(calculator: Desmos.Calculator) {
+    calculator.setBlank();
+
+    let num = parseInt(bezier_elements.point_num_node.value) - 1;
+    generate_coord_table(calculator);
+    generate_weight_table(calculator, num + 1);
+
+    // valós bezier görbe egyenlete
+    calculator.setExpression({
+        id: 'bezierf', latex: `B_{${num + 1}}(t,P)=`
+            + `\\frac{\(\\sum_{i=0}^{${num}}(\\operatorname{nCr}(${num},i)(1-t)^{${num}-i}t^{i}P[i+1]w[i+1]))}{\\sum_{i=0}^{${num}}(\\operatorname{nCr}(${num},i)(1-t)^{${num}-i}t^{i}w[i+1])}`
+    });
+
+    // előző egyenelt hívása
+    calculator.setExpression({ id: 'bezierc', latex: `B_{${bezier_elements.point_num_node.value}}(t,(c_x,c_y))` });
 }
 
 // A koordináta táblázatot generáló függvény

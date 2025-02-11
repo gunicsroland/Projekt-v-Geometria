@@ -13,19 +13,18 @@
             <div class="controls">
                 <div class="controls_left">
                     <p>Bézier görbe kontrollpontok száma: </p>
-                    <input type="number" id="point_num" value="3">
+                    <input type="number" id="point_num" value="4" min="3" max="4">
                 </div>
                 <div clas="controls_right">
-                    <input type="button" id="load_index" value="polinom vizsgálata" min="2">
+                    <input type="button" id="load_index" value="polinom vizsgálata">
                 </div>
             </div>
         </div>
         <div class="bottom">
-            <div class="list_container">
+            <div class="list_container" hidden>
                 <div id="list">
                 
                 </div>
-                <input type="button" id="calculate" value="számolás">
             </div>
             <div id="calculator"></div>
         </div>
